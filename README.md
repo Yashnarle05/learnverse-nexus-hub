@@ -1,73 +1,120 @@
-# Welcome to your Lovable project
 
-## Project info
+# EduLearn LMS - Learning Management System
 
-**URL**: https://lovable.dev/projects/d8c22c44-d397-4ed2-b927-5756a7053586
+A full-stack Learning Management System with Java Spring Boot backend and React frontend.
 
-## How can I edit this code?
+## Project Structure
 
-There are several ways of editing your application.
+- `/backend` - Spring Boot backend application with Java
+- `/` - React frontend application
 
-**Use Lovable**
+## Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d8c22c44-d397-4ed2-b927-5756a7053586) and start prompting.
+- Node.js 14+ and npm (for frontend)
+- Java 17 (for backend)
+- Maven 3.6+ (for building backend)
+- MySQL Server 8.0+
 
-Changes made via Lovable will be committed automatically to this repo.
+## Backend Setup
 
-**Use your preferred IDE**
+1. **Configure MySQL**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+   Create a MySQL database named `edu_lms`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+   ```sql
+   CREATE DATABASE edu_lms;
+   ```
 
-Follow these steps:
+   You can change the database connection details in `backend/src/main/resources/application.properties` if needed.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2. **Build and Run Backend**
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+   Navigate to the backend directory and run:
 
-# Step 3: Install the necessary dependencies.
-npm i
+   ```bash
+   cd backend
+   mvn clean install
+   mvn spring-boot:run
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+   The backend will start on `http://localhost:8080`.
 
-**Edit a file directly in GitHub**
+## Frontend Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **Install Dependencies**
 
-**Use GitHub Codespaces**
+   From the project root directory:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+   ```bash
+   npm install
+   ```
 
-## What technologies are used for this project?
+2. **Update API Endpoint**
 
-This project is built with:
+   Update the API base URL in the frontend to point to your backend server.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3. **Run Frontend**
 
-## How can I deploy this project?
+   ```bash
+   npm run dev
+   ```
 
-Simply open [Lovable](https://lovable.dev/projects/d8c22c44-d397-4ed2-b927-5756a7053586) and click on Share -> Publish.
+   The frontend will start on `http://localhost:3000`.
 
-## Can I connect a custom domain to my Lovable project?
+## Default Users
 
-Yes, you can!
+The system comes with two default users:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Admin Account:
+   - Email: admin@lms.com
+   - Password: password
+   - Role: ADMIN
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+2. Student Account:
+   - Email: student@lms.com
+   - Password: password
+   - Role: STUDENT
+
+## Features
+
+- User Authentication (Login/Register)
+- Role-based Access Control (Admin and Student)
+- Course Management
+- Course Enrollment
+- Progress Tracking
+- User Management
+
+## API Endpoints
+
+### Authentication
+
+- `POST /api/auth/signin` - Login
+- `POST /api/auth/signup` - Register
+
+### Users
+
+- `GET /api/users` - Get all users (Admin only)
+- `GET /api/users/{id}` - Get user by ID
+- `PUT /api/users/{id}` - Update user
+- `DELETE /api/users/{id}` - Delete user (Admin only)
+
+### Courses
+
+- `GET /api/courses` - Get all courses
+- `GET /api/courses/{id}` - Get course by ID
+- `POST /api/courses` - Create course (Admin only)
+- `PUT /api/courses/{id}` - Update course (Admin only)
+- `DELETE /api/courses/{id}` - Delete course (Admin only)
+- `POST /api/courses/{id}/enroll` - Enroll in a course
+
+### Enrollments
+
+- `GET /api/enrollments/my` - Get current user's enrollments
+- `GET /api/enrollments/user/{userId}` - Get user's enrollments (Admin only)
+- `POST /api/enrollments/course/{courseId}` - Enroll in a course
+- `PUT /api/enrollments/{id}/progress/{progress}` - Update enrollment progress
+- `DELETE /api/enrollments/{id}` - Delete enrollment
+
+## License
+
+This project is licensed under the MIT License.
