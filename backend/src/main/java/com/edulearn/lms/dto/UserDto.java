@@ -10,7 +10,7 @@ import com.edulearn.lms.model.User.Role;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private Long id;
+    private String id;
     private String name;
     private String email;
     private Role role;

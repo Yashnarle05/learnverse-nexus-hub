@@ -27,14 +27,14 @@ public class EnrollmentController {
 
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<EnrollmentDto>> getUserEnrollments(@PathVariable Long userId) {
+    public ResponseEntity<List<EnrollmentDto>> getUserEnrollments(@PathVariable String userId) {
         return ResponseEntity.ok(enrollmentService.getUserEnrollments(userId));
     }
 
     @PostMapping("/course/{courseId}")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<EnrollmentDto> enrollInCourse(
-            @PathVariable Long courseId,
+            @PathVariable String courseId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         EnrollmentDto enrollment = enrollmentService.createEnrollment(userDetails.getId(), courseId);
         return ResponseEntity.ok(enrollment);
@@ -43,7 +43,7 @@ public class EnrollmentController {
     @PutMapping("/{id}/progress/{progress}")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<EnrollmentDto> updateProgress(
-            @PathVariable Long id,
+            @PathVariable String id,
             @PathVariable Integer progress,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return enrollmentService.updateProgress(id, progress)
@@ -53,7 +53,7 @@ public class EnrollmentController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STUDENT')")
-    public ResponseEntity<?> deleteEnrollment(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEnrollment(@PathVariable String id) {
         if (enrollmentService.deleteEnrollment(id)) {
             return ResponseEntity.ok().body("Enrollment deleted successfully");
         }

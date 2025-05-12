@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnrollmentDto {
-    private Long id;
-    private Long userId;
-    private Long courseId;
+    private String id;
+    private String userId;
+    private String courseId;
     private LocalDateTime enrollmentDate;
     private Integer progress;
     private String courseTitle;

@@ -23,13 +23,13 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseDto>> getAllCourses(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Long userId = userDetails != null ? userDetails.getId() : null;
+        String userId = userDetails != null ? userDetails.getId() : null;
         return ResponseEntity.ok(courseService.getAllCourses(userId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Long userId = userDetails != null ? userDetails.getId() : null;
+    public ResponseEntity<CourseDto> getCourseById(@PathVariable String id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String userId = userDetails != null ? userDetails.getId() : null;
         return courseService.getCourseById(id, userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -43,7 +43,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CourseDto> updateCourse(@PathVariable Long id, @Valid @RequestBody Course courseDetails) {
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable String id, @Valid @RequestBody Course courseDetails) {
         return courseService.updateCourse(id, courseDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -51,7 +51,7 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteCourse(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCourse(@PathVariable String id) {
         if (courseService.deleteCourse(id)) {
             return ResponseEntity.ok().body("Course deleted successfully");
         }
@@ -60,7 +60,7 @@ public class CourseController {
 
     @PostMapping("/{id}/enroll")
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<?> enrollInCourse(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<?> enrollInCourse(@PathVariable String id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (courseService.enrollUserInCourse(userDetails.getId(), id)) {
             return ResponseEntity.ok().body("Successfully enrolled in the course");
         }
