@@ -2,7 +2,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { BookOpen, User, Users, Graduation, Home } from "lucide-react";
+import { BookOpen, User, Users, GraduationCap, Home } from "lucide-react";
 
 const Sidebar = () => {
   const { user } = useAuth();
@@ -28,7 +28,7 @@ const Sidebar = () => {
     {
       name: "My Enrollments",
       href: "/enrollments",
-      icon: Graduation,
+      icon: GraduationCap,
       roles: ["student"],
     },
     {
