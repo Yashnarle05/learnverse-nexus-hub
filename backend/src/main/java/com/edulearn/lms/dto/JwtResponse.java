@@ -10,12 +10,12 @@ import com.edulearn.lms.model.User.Role;
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
-    private Long id;
+    private String id;
     private String name;
     private String email;
     private Role role;
     
-    public JwtResponse(String token, Long id, String name, String email, Role role) {
+    public JwtResponse(String token, String id, String name, String email, Role role) {
         this.token = token;
         this.id = id;
         this.name = name;
