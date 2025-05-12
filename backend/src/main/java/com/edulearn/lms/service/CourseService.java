@@ -11,6 +11,7 @@ import com.edulearn.lms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class CourseService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
     
-    public List<CourseDto> getAllCourses(Long userId) {
+    public List<CourseDto> getAllCourses(String userId) {
         User user = userId != null ? userRepository.findById(userId).orElse(null) : null;
         
         return courseRepository.findAll().stream()
@@ -35,7 +36,7 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
     
-    public Optional<CourseDto> getCourseById(Long id, Long userId) {
+    public Optional<CourseDto> getCourseById(String id, String userId) {
         User user = userId != null ? userRepository.findById(userId).orElse(null) : null;
         
         return courseRepository.findById(id)
@@ -47,7 +48,7 @@ public class CourseService {
         return convertToDto(savedCourse, null);
     }
     
-    public Optional<CourseDto> updateCourse(Long id, Course courseDetails) {
+    public Optional<CourseDto> updateCourse(String id, Course courseDetails) {
         return courseRepository.findById(id).map(course -> {
             course.setTitle(courseDetails.getTitle());
             course.setDescription(courseDetails.getDescription());
@@ -59,7 +60,7 @@ public class CourseService {
         });
     }
     
-    public boolean deleteCourse(Long id) {
+    public boolean deleteCourse(String id) {
         if (courseRepository.existsById(id)) {
             courseRepository.deleteById(id);
             return true;
@@ -67,7 +68,7 @@ public class CourseService {
         return false;
     }
     
-    public boolean enrollUserInCourse(Long userId, Long courseId) {
+    public boolean enrollUserInCourse(String userId, String courseId) {
         User user = userRepository.findById(userId).orElse(null);
         Course course = courseRepository.findById(courseId).orElse(null);
         
@@ -83,6 +84,7 @@ public class CourseService {
         enrollment.setUser(user);
         enrollment.setCourse(course);
         enrollment.setProgress(0);
+        enrollment.setEnrollmentDate(LocalDateTime.now());
         
         enrollmentRepository.save(enrollment);
         return true;

@@ -13,17 +13,15 @@ A full-stack Learning Management System with Java Spring Boot backend and React 
 - Node.js 14+ and npm (for frontend)
 - Java 17 (for backend)
 - Maven 3.6+ (for building backend)
-- MySQL Server 8.0+
+- MongoDB 5.0+
 
 ## Backend Setup
 
-1. **Configure MySQL**
+1. **Configure MongoDB**
 
-   Create a MySQL database named `edu_lms`
-
-   ```sql
-   CREATE DATABASE edu_lms;
-   ```
+   Install MongoDB if you haven't already. MongoDB should be running on the default port 27017.
+   
+   The application will automatically create a database named `edu_lms` on first run.
 
    You can change the database connection details in `backend/src/main/resources/application.properties` if needed.
 

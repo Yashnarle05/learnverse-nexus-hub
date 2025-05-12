@@ -1,38 +1,33 @@
 
 package com.edulearn.lms.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "enrollments")
+@Document(collection = "enrollments")
 public class Enrollment {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @DBRef
     private User user;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", nullable = false)
+    @DBRef
     private Course course;
     
     private LocalDateTime enrollmentDate;
     
     private Integer progress = 0;
     
-    @PrePersist
-    protected void onCreate() {
-        enrollmentDate = LocalDateTime.now();
-    }
+    // MongoDB doesn't have @PrePersist like JPA, so we will set this in the service
 }

@@ -11,6 +11,7 @@ import com.edulearn.lms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,17 +28,17 @@ public class EnrollmentService {
     @Autowired
     private CourseRepository courseRepository;
     
-    public List<EnrollmentDto> getUserEnrollments(Long userId) {
+    public List<EnrollmentDto> getUserEnrollments(String userId) {
         return enrollmentRepository.findByUserId(userId).stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     
-    public Optional<EnrollmentDto> getEnrollment(Long id) {
+    public Optional<EnrollmentDto> getEnrollment(String id) {
         return enrollmentRepository.findById(id).map(this::convertToDto);
     }
     
-    public EnrollmentDto createEnrollment(Long userId, Long courseId) {
+    public EnrollmentDto createEnrollment(String userId, String courseId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
                 
@@ -54,18 +55,19 @@ public class EnrollmentService {
         enrollment.setUser(user);
         enrollment.setCourse(course);
         enrollment.setProgress(0);
+        enrollment.setEnrollmentDate(LocalDateTime.now()); // Setting date here since @PrePersist is not available
         
         return convertToDto(enrollmentRepository.save(enrollment));
     }
     
-    public Optional<EnrollmentDto> updateProgress(Long id, Integer progress) {
+    public Optional<EnrollmentDto> updateProgress(String id, Integer progress) {
         return enrollmentRepository.findById(id).map(enrollment -> {
             enrollment.setProgress(progress);
             return convertToDto(enrollmentRepository.save(enrollment));
         });
     }
     
-    public boolean deleteEnrollment(Long id) {
+    public boolean deleteEnrollment(String id) {
         if (enrollmentRepository.existsById(id)) {
             enrollmentRepository.deleteById(id);
             return true;
